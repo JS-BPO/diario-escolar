@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#b8566a">
+<meta name="theme-color" content="#7d4a2c">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -16,25 +16,50 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <title>Diário Escolar</title>
 <style>
+/* Cores-base tiradas da logo: marrom da coruja, rosa do coração, dourado do círculo.
+   --primary/--bar/--accent são trocados pelo tema escolhido em Configurações. */
 :root{
-  --bg:#fbf4ea;--surface:#fffaf2;--text:#3a2416;--muted:#8a7362;--border:#ecdfce;
-  --primary:#b8566a;--primary-2:#cc7a8c;--primary-soft:#f6e3e6;--gold:#c98a2e;--gold-soft:#fbefd9;
-  --ok:#3f8f5a;--ok-soft:#e2f1e6;--danger:#b23b3b;--radius:16px;color-scheme:light;
+  --bg:#fbf6ee;--surface:#fffdf9;--text:#3b2418;--muted:#8a7362;--border:#efe3d4;
+  --primary:#8a5535;--primary-2:#a86d47;--primary-soft:#f3e5d9;--bar:#8a5535;--bar-2:#b07a52;--accent:#c2677f;
+  --gold:#b9852f;--gold-soft:#fbefd9;--ok:#3f8f5a;--ok-soft:#e2f1e6;--danger:#b23b3b;--radius:18px;
+  --shadow:0 2px 10px rgba(59,36,24,.06);color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){--bg:#241811;--surface:#2f2117;--text:#f3e6d8;--muted:#b8a08d;--border:#3c2c1f;--primary:#d97a90;--primary-2:#b8566a;--primary-soft:#4a2a31;--gold:#e0a355;--gold-soft:#3d2f19;--ok:#6fc28a;--ok-soft:#1f3326;--danger:#d9584f;color-scheme:dark}
+  :root:not([data-theme="light"]){--bg:#1f1610;--surface:#2b2018;--text:#f3e6d8;--muted:#b8a08d;--border:#3c2c1f;--gold:#e0a355;--gold-soft:#3d2f19;--ok:#6fc28a;--ok-soft:#1f3326;--danger:#e0645a;--shadow:0 2px 10px rgba(0,0,0,.3);color-scheme:dark}
 }
-:root[data-theme="dark"]{--bg:#241811;--surface:#2f2117;--text:#f3e6d8;--muted:#b8a08d;--border:#3c2c1f;--primary:#d97a90;--primary-2:#b8566a;--primary-soft:#4a2a31;--gold:#e0a355;--gold-soft:#3d2f19;--ok:#6fc28a;--ok-soft:#1f3326;--danger:#d9584f;color-scheme:dark}
+:root[data-theme="dark"]{--bg:#1f1610;--surface:#2b2018;--text:#f3e6d8;--muted:#b8a08d;--border:#3c2c1f;--gold:#e0a355;--gold-soft:#3d2f19;--ok:#6fc28a;--ok-soft:#1f3326;--danger:#e0645a;--shadow:0 2px 10px rgba(0,0,0,.3);color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;background:var(--bg)}
 body{color:var(--text);font-family:Nunito,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh}
-.top{position:sticky;top:0;z-index:5;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,.15)}
-.top .icon-btn{background:rgba(255,255,255,.2);border:none;color:#fff;min-width:38px;height:38px;border-radius:12px;font-size:18px;cursor:pointer;font-family:inherit}
+.top{position:sticky;top:0;z-index:5;background:linear-gradient(135deg,var(--bar),var(--bar-2));color:#fff;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 16px rgba(0,0,0,.14);border-radius:0 0 22px 22px}
+.top .icon-btn{background:rgba(255,255,255,.18);border:none;color:#fff;min-width:40px;height:40px;border-radius:14px;font-size:19px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center}
+.top .icon-btn svg{width:22px;height:22px}
+.hero{background:linear-gradient(140deg,var(--bar),var(--bar-2));color:#fff;padding:calc(18px + env(safe-area-inset-top,0px)) 18px 26px;border-radius:0 0 30px 30px;box-shadow:0 6px 22px rgba(0,0,0,.14)}
+.hero .linha{display:flex;align-items:center;gap:14px}
+.hero .logo{width:62px;height:62px;border-radius:50%;object-fit:cover;background:#fffdf9;box-shadow:0 0 0 3px rgba(255,255,255,.55);flex-shrink:0}
+.hero h1{margin:0;font-size:22px;font-weight:800;line-height:1.15}
+.hero .sub{font-size:13.5px;opacity:.9;font-weight:600;margin-top:3px}
+.hero .icon-btn{margin-left:auto;align-self:flex-start;background:rgba(255,255,255,.18);border:none;color:#fff;width:42px;height:42px;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.hero .icon-btn svg{width:22px;height:22px}
+.hero .resumo{display:flex;gap:10px;margin-top:18px}
+.hero .resumo div{flex:1;background:rgba(255,255,255,.16);border-radius:16px;padding:10px 12px}
+.hero .resumo b{display:block;font-size:20px;font-weight:800}
+.hero .resumo span{font-size:12px;opacity:.9;font-weight:600}
+.secao{font-size:13px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin:20px 4px 10px}
+.swatches{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.sw{border:none;background:none;padding:0;cursor:pointer;text-align:center;font-family:inherit;color:var(--text);font-size:12px;font-weight:700;width:64px}
+.sw i{display:block;width:52px;height:52px;margin:0 auto 5px;border-radius:50%;box-shadow:var(--shadow);border:3px solid var(--surface);outline:2px solid transparent}
+.sw.on i{outline-color:var(--text)}
+.seg{display:flex;background:var(--bg);border:1.5px solid var(--border);border-radius:14px;padding:4px;margin-top:10px}
+.seg button{flex:1;border:none;background:none;padding:10px 6px;border-radius:10px;font-family:inherit;font-weight:700;font-size:14px;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--primary);color:var(--on-primary,#fff)}
+.cfg-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .top h1{font-size:18px;margin:0;font-weight:800;flex:1;line-height:1.2;min-width:0}
 .top .sub{font-size:12.5px;opacity:.9;display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top-logo{width:42px;height:42px;border-radius:50%;object-fit:cover;background:#fffaf2;box-shadow:0 0 0 2px rgba(255,255,255,.6);flex-shrink:0}
 main{max-width:560px;margin:0 auto;padding:16px 14px calc(100px + env(safe-area-inset-bottom,0px))}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;transition:transform .12s}
+.card:active{transform:scale(.985)}
 .card h3{margin:0 0 2px;font-size:16px;font-weight:700}
 .meta{color:var(--muted);font-size:13px}
 .row{display:flex;align-items:center;gap:12px}
@@ -44,22 +69,23 @@ input,textarea{width:100%;padding:12px;border:1.5px solid var(--border);border-r
 input:focus,textarea:focus{outline:none;border-color:var(--primary)}
 textarea{min-height:110px;resize:vertical}
 label{font-size:13px;color:var(--muted);display:block;margin:12px 0 5px;font-weight:600}
-.btn{background:var(--primary);color:#fff;border:none;padding:13px 16px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:inherit}
+.btn{background:var(--primary);color:var(--on-primary,#fff);border:none;padding:13px 16px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:inherit}
 .btn.ghost{background:transparent;color:var(--primary);border:1.5px solid var(--primary)}
 .btn.sm{width:auto;padding:9px 14px;font-size:13.5px}
 .btn.danger{background:var(--danger)}
 .btn.link{background:none;color:var(--danger);border:none;text-decoration:underline;font-weight:600}
-.fab{position:fixed;right:18px;bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--primary);color:#fff;width:58px;height:58px;border-radius:50%;border:none;font-size:28px;box-shadow:0 6px 16px rgba(184,86,106,.4);cursor:pointer;z-index:6}
+.fab{position:fixed;right:18px;bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--primary);color:var(--on-primary,#fff);width:58px;height:58px;border-radius:50%;border:none;font-size:28px;box-shadow:0 8px 20px rgba(0,0,0,.25);cursor:pointer;z-index:6}
 .empty{text-align:center;color:var(--muted);padding:36px 10px;font-size:14.5px;line-height:1.5}
 .empty .big{font-size:42px;display:block;margin-bottom:6px}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:15px 16px;margin-bottom:12px;box-shadow:var(--shadow)}
 .ph{margin:0 0 4px;font-size:15px;font-weight:800}
 .thumbs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .thumbs img{width:76px;height:76px;object-fit:cover;border-radius:10px;border:1px solid var(--border);cursor:zoom-in}
 .thumb-wrap{position:relative}
 .thumb-wrap .rm{position:absolute;top:-7px;right:-7px;background:var(--danger);color:#fff;border:none;border-radius:50%;width:24px;height:24px;font-size:14px;line-height:1;cursor:pointer}
 .reg{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px}
-.reg .date{font-weight:800;font-size:13.5px;color:var(--primary)}
+.reg{box-shadow:var(--shadow)}
+.reg .date{font-weight:800;font-size:13.5px;color:var(--accent)}
 .reg p{margin:6px 0;font-size:14.5px;white-space:pre-wrap;line-height:1.45}
 .actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .actions .btn{width:auto;flex:1}
@@ -70,8 +96,14 @@ label{font-size:13px;color:var(--muted);display:block;margin:12px 0 5px;font-wei
 .avatar{width:44px;height:44px;font-size:18px}
 .avatar-lg{width:72px;height:72px;font-size:26px}
 .chip{display:inline-block;padding:8px 13px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);font-size:13.5px;margin:0 6px 7px 0;cursor:pointer;color:var(--text);font-family:inherit;font-weight:600;user-select:none}
-.chip.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.chip.on{background:var(--primary);border-color:var(--primary);color:var(--on-primary,#fff)}
 .chip.campo.on{background:var(--gold);border-color:var(--gold)}
+.campoItem{display:block;width:100%;text-align:left;border-radius:14px;padding:11px 14px;margin:0 0 8px}
+.campoItem .cn{display:block;font-weight:800;font-size:14.5px}
+.campoItem .cd{display:block;font-size:13px;margin-top:2px;opacity:.85}
+.campoItem .cx{display:block;font-size:12px;margin-top:3px;opacity:.7;font-style:italic}
+.campoItem.on .cn::before{content:'✓ '}
+.rot{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.5px;margin:8px 0 2px}
 .grp{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:800;margin:10px 0 6px}
 .tag{display:inline-block;font-size:12px;padding:3px 9px;border-radius:14px;background:var(--primary-soft);color:var(--primary);margin:2px 4px 2px 0;font-weight:700}
 .tag.campo{background:var(--gold-soft);color:var(--gold)}
@@ -140,7 +172,43 @@ const GRUPOS=[
   {g:'Higiene',itens:['Evacuou','Trocou fralda','Usou o banheiro']},
   {g:'Interação',itens:['Brincou com os colegas','Participou das atividades','Preferiu brincar sozinho(a)']}
 ];
-const CAMPOS=['O eu, o outro e o nós','Corpo, gestos e movimentos','Traços, sons, cores e formas','Escuta, fala, pensamento e imaginação','Espaços, tempos, quantidades, relações e transformações'];
+// Campos de Experiência da BNCC (Educação Infantil). O nome é o que fica salvo no registro.
+const CAMPOS_BNCC=[
+  {n:'O eu, o outro e o nós',d:'Convivência, emoções, identidade e respeito ao outro',ex:'dividiu brinquedo, ajudou um colega, esperou a vez'},
+  {n:'Corpo, gestos e movimentos',d:'Coordenação motora, equilíbrio e expressão pelo corpo',ex:'correu, dançou, pulou, montou peças, recortou'},
+  {n:'Traços, sons, cores e formas',d:'Arte, música e expressão criativa',ex:'pintou, desenhou, cantou, modelou massinha'},
+  {n:'Escuta, fala, pensamento e imaginação',d:'Linguagem oral, escuta, leitura e faz de conta',ex:'contou uma história, falou na roda, ouviu um livro'},
+  {n:'Espaços, tempos, quantidades, relações e transformações',d:'Raciocínio, números, natureza e o mundo ao redor',ex:'contou objetos, comparou tamanhos, plantou, observou o tempo'}
+];
+const CAMPOS=CAMPOS_BNCC.map(c=>c.n);
+const infoCampo=n=>CAMPOS_BNCC.find(c=>c.n===n);
+const grupoDaTag=t=>(GRUPOS.find(g=>g.itens.includes(t))||{g:'Outros'}).g;
+
+/* ===================== TEMAS E CONFIGURAÇÕES ===================== */
+// claro: cores fortes p/ fundo claro | escuro: tons mais claros p/ fundo escuro | bar: barra do topo
+const TEMAS={
+  coruja:{nome:'Coruja',claro:['#8a5535','#a86d47','#f3e5d9'],escuro:['#dba67f','#8a5535','#3e2a1e'],bar:['#7d4a2c','#b07a52'],accent:['#c2677f','#e38ea3']},
+  rosa:  {nome:'Rosa',  claro:['#b8566a','#cc7a8c','#f6e3e6'],escuro:['#e48ea2','#b8566a','#4a2a31'],bar:['#b14f64','#d27f91'],accent:['#8a5535','#dba67f']},
+  lavanda:{nome:'Lavanda',claro:['#7a58a3','#9879c2','#ece4f5'],escuro:['#bba2e3','#7a58a3','#352a48'],bar:['#6e4f97','#9c7fc6'],accent:['#c2677f','#e38ea3']},
+  menta: {nome:'Menta', claro:['#2f7f6a','#4f9e88','#dcefe8'],escuro:['#7fcbb4','#2f7f6a','#1f3a32'],bar:['#2b735f','#58a892'],accent:['#c2677f','#e38ea3']},
+  ceu:   {nome:'Céu',   claro:['#3c6ca5','#5d8cc3','#e1ebf6'],escuro:['#8fb4e3','#3c6ca5','#22324a'],bar:['#365f93','#6593c9'],accent:['#c2677f','#e38ea3']}
+};
+const CFG_PADRAO={tema:'coruja',modo:'auto',professora:'',escola:''};
+function cfg(){try{return {...CFG_PADRAO,...JSON.parse(localStorage.getItem('config')||'{}')};}catch(e){return {...CFG_PADRAO};}}
+function salvarCfg(mud){try{localStorage.setItem('config',JSON.stringify({...cfg(),...mud}));}catch(e){}aplicarTema();}
+const mqEscuro=matchMedia('(prefers-color-scheme: dark)');
+function aplicarTema(){
+  const c=cfg(),t=TEMAS[c.tema]||TEMAS.coruja,root=document.documentElement;
+  if(c.modo==='claro')root.dataset.theme='light';else if(c.modo==='escuro')root.dataset.theme='dark';else delete root.dataset.theme;
+  const escuro=c.modo==='escuro'||(c.modo==='auto'&&mqEscuro.matches);
+  const [p,p2,soft]=escuro?t.escuro:t.claro;
+  const vars={'--on-primary':escuro?'#24150c':'#fff','--primary':p,'--primary-2':p2,'--primary-soft':soft,'--bar':t.bar[0],'--bar-2':t.bar[1],'--accent':t.accent[escuro?1:0]};
+  for(const k in vars)root.style.setProperty(k,vars[k]);
+  const m=document.querySelector('meta[name="theme-color"]');if(m)m.content=t.bar[0];
+}
+mqEscuro.addEventListener&&mqEscuro.addEventListener('change',aplicarTema);
+aplicarTema();
+const ICON_CFG=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`;
 
 let state={view:'turmas',turmaId:null,alunoId:null,addOpen:false,regMode:'single',editRegId:null,form:null,filtroDe:null,filtroAte:null,novaFoto:null,editFoto:null};
 const app=document.getElementById('app');
@@ -214,8 +282,8 @@ function resizeImg(file,maxW=1000){
 }
 
 /* ===================== NAVEGAÇÃO (botão voltar do Android) ===================== */
-function depth(v){return {turmas:0,alunos:1,backup:1,editarTurma:2,perfil:2,editarAluno:3,registro:state.regMode==='coletivo'?2:3}[v]??0;}
-function parent(v){return {alunos:'turmas',backup:'turmas',editarTurma:'alunos',perfil:'alunos',editarAluno:'perfil',registro:state.regMode==='coletivo'?'alunos':'perfil'}[v]||'turmas';}
+function depth(v){return {turmas:0,alunos:1,config:1,editarTurma:2,perfil:2,editarAluno:3,registro:state.regMode==='coletivo'?2:3}[v]??0;}
+function parent(v){return {alunos:'turmas',config:'turmas',editarTurma:'alunos',perfil:'alunos',editarAluno:'perfil',registro:state.regMode==='coletivo'?'alunos':'perfil'}[v]||'turmas';}
 let skipPop=false;
 function syncHist(d0){
   const d1=depth(state.view);
@@ -238,17 +306,18 @@ async function render(){
   if(v==='perfil')return renderPerfil();
   if(v==='editarAluno')return renderEditarAluno();
   if(v==='registro')return renderRegistro();
-  if(v==='backup')return renderBackup();
+  if(v==='config')return renderConfig();
 }
 const btnVoltar=`<button class="icon-btn" data-action="voltar" aria-label="Voltar">‹</button>`;
 
 async function renderTurmas(){
   const turmas=(await getAll('turmas')).sort(porNome);
   const hojeSet=new Set((await getByIndex('registros','data',today())).map(r=>r.alunoId));
-  let items='';
+  let items='',totAlunos=0,totFeitos=0;
   for(const t of turmas){
     const alunos=await getByIndex('alunos','turmaId',t.id);
     const feitos=alunos.filter(a=>hojeSet.has(a.id)).length;
+    totAlunos+=alunos.length;totFeitos+=feitos;
     const pct=alunos.length?Math.round(feitos/alunos.length*100):0;
     items+=`<div class="card" data-action="abrirTurma" data-id="${t.id}">
       <div class="row"><div><h3>${esc(t.nome)}</h3><span class="meta">${t.turno?esc(t.turno)+' · ':''}${alunos.length} aluno(s)</span></div><span class="chev">›</span></div>
@@ -257,14 +326,20 @@ async function renderTurmas(){
   }
   const dias=diasDesdeBackup();
   const banner=turmas.length&&(dias===null||dias>=7)
-    ?`<div class="banner" data-action="abrirBackup">💾 ${dias===null?'Você ainda não fez nenhum backup.':`Seu último backup foi há ${dias} dias.`} <b>Toque aqui</b> para guardar uma cópia dos registros.</div>`:'';
-  const dataHoje=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+    ?`<div class="banner" data-action="abrirConfig">💾 ${dias===null?'Você ainda não fez nenhum backup.':`Seu último backup foi há ${dias} dias.`} <b>Toque aqui</b> para guardar uma cópia dos registros.</div>`:'';
+  let dataHoje=new Date().toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});dataHoje=dataHoje[0].toUpperCase()+dataHoje.slice(1);
+  const c=cfg(),h=new Date().getHours();
+  const saud=h<12?'Bom dia':h<18?'Boa tarde':'Boa noite';
   app.innerHTML=`
-    <div class="top"><img src="icon-192.png" class="top-logo" alt="" onerror="this.style.display='none'">
-      <h1>Minhas Turmas<span class="sub">${esc(dataHoje)}</span></h1>
-      <button class="icon-btn" data-action="abrirBackup" aria-label="Backup">💾</button></div>
+    <div class="hero">
+      <div class="linha"><img src="icon-192.png" class="logo" alt="" onerror="this.style.display='none'">
+        <div><h1>${saud}${c.professora?`, ${esc(c.professora)}`:''}!</h1><div class="sub">${esc(dataHoje)}${c.escola?` · ${esc(c.escola)}`:''}</div></div>
+        <button class="icon-btn" data-action="abrirConfig" aria-label="Configurações">${ICON_CFG}</button></div>
+      ${totAlunos?`<div class="resumo"><div><b>${totFeitos}/${totAlunos}</b><span>registrados hoje</span></div><div><b>${turmas.length}</b><span>turma(s)</span></div></div>`:''}
+    </div>
     <main>
       ${banner}
+      <div class="secao">Minhas turmas</div>
       ${state.addOpen?formTurma():''}
       ${items||(!state.addOpen?'<div class="empty"><span class="big">🏫</span>Nenhuma turma cadastrada ainda.<br>Toque em <b>+</b> para criar a primeira.</div>':'')}
       ${turmas.length?`<div class="panel"><h3 class="ph">📄 Relatório geral</h3><span class="meta">Todos os alunos de todas as turmas</span>
@@ -344,9 +419,9 @@ async function renderPerfil(){
   if(state.filtroAte)regs=regs.filter(r=>r.data<=state.filtroAte);
   const lista=regs.map(r=>`<div class="reg">
     <span class="date">${fmtDate(r.data)} · ${esc(diaSemana(r.data))}</span>${r.coletivo?' <span class="meta">· coletivo</span>':''}
-    ${(r.tags||[]).length?`<div style="margin-top:6px">${r.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
-    ${r.texto?`<p>${esc(r.texto)}</p>`:''}
-    ${(r.campos||[]).length?`<div>${r.campos.map(t=>`<span class="tag campo">${esc(t)}</span>`).join('')}</div>`:''}
+    ${(r.tags||[]).length?`<div class="rot">Rotina do dia</div><div>${r.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+    ${r.texto?`<div class="rot">Observação</div><p style="margin-top:2px">${esc(r.texto)}</p>`:''}
+    ${(r.campos||[]).length?`<div class="rot">Campos de experiência (BNCC)</div><div>${r.campos.map(t=>`<span class="tag campo">${esc(t)}</span>`).join('')}</div>`:''}
     ${r.fotos&&r.fotos.length?`<div class="thumbs">${r.fotos.map(f=>`<img src="${f}" data-action="zoom" alt="">`).join('')}</div>`:''}
     <div class="actions">
       <button class="btn ghost sm" data-action="editarRegistro" data-id="${r.id}">Editar</button>
@@ -430,7 +505,8 @@ async function renderRegistro(){
     const a=await get('alunos',state.alunoId);sub=a?a.nome:'';
   }
   const chips=GRUPOS.map(gr=>`<div class="grp">${gr.g}</div>${gr.itens.map(i=>`<button type="button" class="chip${f.tags.includes(i)?' on':''}" data-action="chip" data-kind="tag" data-g="${esc(gr.g)}" data-unico="${gr.unico?1:0}" data-v="${esc(i)}">${esc(i)}</button>`).join('')}`).join('');
-  const campos=CAMPOS.map(c=>`<button type="button" class="chip campo${f.campos.includes(c)?' on':''}" data-action="chip" data-kind="campo" data-v="${esc(c)}">${esc(c)}</button>`).join('');
+  const campos=CAMPOS_BNCC.map(c=>`<button type="button" class="chip campo campoItem${f.campos.includes(c.n)?' on':''}" data-action="chip" data-kind="campo" data-v="${esc(c.n)}">
+      <span class="cn">${esc(c.n)}</span><span class="cd">${esc(c.d)}</span><span class="cx">Ex.: ${esc(c.ex)}</span></button>`).join('');
   app.innerHTML=`
     <div class="top"><button class="icon-btn" data-action="cancelarRegistro" aria-label="Voltar">‹</button>
       <h1>${col?'Registro coletivo':(state.editRegId?'Editar registro':'Registro do dia')}<span class="sub">${esc(sub)}</span></h1></div>
@@ -443,7 +519,7 @@ async function renderRegistro(){
           <button type="button" class="btn ghost sm" id="btnMic" data-action="toggleMic" style="flex:none">🎤 Ditar</button></div>
         <textarea id="fTexto" style="margin-top:10px" placeholder="O que chamou sua atenção hoje: conquistas, falas, brincadeiras, interações...">${esc(f.texto)}</textarea>
       </div>
-      <div class="panel"><h3 class="ph">Campos de experiência (BNCC)</h3><span class="meta">Opcional — ajuda a montar o parecer descritivo.</span><div style="margin-top:8px">${campos}</div></div>
+      <div class="panel"><h3 class="ph">Campos de experiência (BNCC)</h3><span class="meta">Opcional. São as áreas de aprendizagem da Educação Infantil definidas pela BNCC. Marque só as que a atividade de hoje realmente trabalhou — elas entram explicadas no relatório e ajudam no parecer descritivo.</span><div style="margin-top:8px">${campos}</div></div>
       <div class="panel"><h3 class="ph">Fotos</h3>
         <label class="filebtn" style="margin-top:6px">📷 Adicionar fotos<input type="file" accept="image/*" multiple id="fFotos"></label>
         <div class="thumbs">${f.fotos.map((src,i)=>`<div class="thumb-wrap"><img src="${src}" data-action="zoom" alt=""><button class="rm" data-action="rmFoto" data-i="${i}" aria-label="Remover">×</button></div>`).join('')}</div>
@@ -506,14 +582,31 @@ function ouvirFrase(SR){
 function stopMic(){gravando=false;querOuvir=false;const b=document.getElementById('btnMic');if(b){b.textContent='🎤 Ditar';b.classList.remove('recording');}}
 
 /* ----- Backup ----- */
-async function renderBackup(){
+async function renderConfig(){
   const [t,a,r]=[await getAll('turmas'),await getAll('alunos'),await reqP(tx('registros').count())];
   let uso='';
-  try{if(navigator.storage&&navigator.storage.estimate){const e=await navigator.storage.estimate();uso=` · ${(e.usage/1048576).toFixed(1)} MB usados`;}}catch(e){}
-  const dias=diasDesdeBackup();
+  try{if(navigator.storage&&navigator.storage.estimate){const e=await navigator.storage.estimate();uso=` · ${(e.usage/1048576).toFixed(1)} MB`;}}catch(e){}
+  const dias=diasDesdeBackup(),c=cfg();
+  const sw=Object.entries(TEMAS).map(([k,v])=>`<button class="sw${c.tema===k?' on':''}" data-action="tema" data-t="${k}"><i style="background:linear-gradient(135deg,${v.bar[0]} 0 50%,${v.accent[0]} 50% 100%)"></i>${esc(v.nome)}</button>`).join('');
+  const modos=[['auto','Automático'],['claro','Claro'],['escuro','Escuro']].map(([k,l])=>`<button class="${c.modo===k?'on':''}" data-action="modo" data-m="${k}">${l}</button>`).join('');
   app.innerHTML=`
-    <div class="top">${btnVoltar}<h1>Backup<span class="sub">${t.length} turma(s) · ${a.length} aluno(s) · ${r} registro(s)${uso}</span></h1></div>
+    <div class="top">${btnVoltar}<h1>Configurações<span class="sub">${t.length} turma(s) · ${a.length} aluno(s) · ${r} registro(s)${uso}</span></h1></div>
     <main>
+      <div class="secao">Perfil</div>
+      <div class="panel">
+        <label style="margin-top:0">Nome da professora</label><input id="cProf" value="${esc(c.professora)}" placeholder="Ex: Prof. Amélia">
+        <label>Escola</label><input id="cEscola" value="${esc(c.escola)}" placeholder="Ex: CEI Pequenos Passos">
+        <span class="meta" style="display:block;margin-top:8px">Aparecem na tela inicial e no cabeçalho dos relatórios.</span>
+        <button class="btn" style="margin-top:12px" data-action="salvarPerfil">Salvar perfil</button>
+      </div>
+      <div class="secao">Aparência</div>
+      <div class="panel">
+        <h3 class="ph">Cor do app</h3><span class="meta">"Coruja" usa as cores da logo.</span>
+        <div class="swatches">${sw}</div>
+        <h3 class="ph" style="margin-top:18px">Tema</h3><span class="meta">"Automático" segue o modo claro/escuro do celular.</span>
+        <div class="seg">${modos}</div>
+      </div>
+      <div class="secao">Backup dos registros</div>
       <div class="panel"><h3 class="ph">Salvar backup</h3>
         <p class="meta" style="font-size:14px;line-height:1.5">Os registros ficam <b>só neste celular</b>. Salve uma cópia toda semana (no Google Drive, e-mail ou WhatsApp) para não perder nada se o aparelho for trocado ou perdido.</p>
         <p class="meta">Último backup: <b>${dias===null?'nunca':dias===0?'hoje':`há ${dias} dia(s)`}</b></p>
@@ -524,6 +617,7 @@ async function renderBackup(){
           <label class="filebtn">Adicionar<input type="file" accept=".json,application/json" id="fImpAdd"></label>
           <label class="filebtn" style="background:var(--gold-soft);color:var(--gold)">Substituir tudo<input type="file" accept=".json,application/json" id="fImpSub"></label>
         </div></div>
+      <p class="meta" style="text-align:center;margin-top:18px">Diário Escolar · os dados ficam somente neste aparelho</p>
     </main>`;
   document.getElementById('fImpAdd').addEventListener('change',e=>importarBackup(e,false));
   document.getElementById('fImpSub').addEventListener('change',e=>importarBackup(e,true));
@@ -556,31 +650,49 @@ async function importarBackup(e,substituir){
     for(const a of data.alunos){const {id,turmaId,...rest}=a;mapA[id]=await add('alunos',{...rest,turmaId:mapT[turmaId]??turmaId});}
     for(const r of data.registros){const {id,alunoId,...rest}=r;await add('registros',{...rest,alunoId:mapA[alunoId]??alunoId});}
     toast('Backup restaurado ✔');
-    state.view='turmas';history.go(-depth('backup'));skipPop=true;render();
+    state.view='turmas';history.go(-depth('config'));skipPop=true;render();
   }catch(err){console.error(err);alert('Esse arquivo não parece ser um backup válido do Diário Escolar.');}
 }
 
 /* ----- Relatórios ----- */
 function relCss(p){const s=p?p+' ':'';return `${p||'body'}{font-family:Calibri,Arial,sans-serif;font-size:12pt;color:#222}
-${s}h1{font-size:18pt;color:#b8566a;margin:0 0 4pt}${s}.per{color:#777;font-size:10pt;margin:0 0 10pt}
+${s}h1{font-size:18pt;color:${(TEMAS[cfg().tema]||TEMAS.coruja).bar[0]};margin:0 0 4pt}${s}.per{color:#777;font-size:10pt;margin:0 0 10pt}
 ${s}h2{font-size:14pt;margin:20pt 0 2pt;border-bottom:1px solid #ddd;padding-bottom:4pt;color:#3a2416}
 ${s}.info{color:#666;font-size:10.5pt;margin:2pt 0}${s}.res{background:#faf3ea;padding:6pt 8pt;font-size:10.5pt;margin:6pt 0}
-${s}.d{font-weight:bold;color:#b8566a;margin-top:12pt}${s}.tg{font-size:10pt;color:#8a5a2a;margin:2pt 0}
+${s}.d{font-weight:bold;color:${(TEMAS[cfg().tema]||TEMAS.coruja).accent[0]};margin-top:12pt}${s}.tg{font-size:10pt;color:#8a5a2a;margin:2pt 0}
 ${s}p{margin:4pt 0}${s}img{max-width:220px;max-height:220px;margin:4pt 6pt 4pt 0}
+${s}.lb{font-weight:bold;color:#3a2416}${s}.res p{margin:3pt 0}${s}ul{margin:2pt 0 4pt 16pt;padding:0}${s}li{margin:2pt 0;font-size:11pt}
+${s}.cdesc{color:#666;font-size:10pt}${s}.nota{font-size:9.5pt;color:#777;border-top:1px solid #ddd;margin-top:16pt;padding-top:6pt}
+${s}.reg{margin:0 0 8pt 0;padding-left:8pt;border-left:3px solid #ecdfce}
 ${s}.pb{page-break-before:always;break-before:page}`;}
+function linhaRotina(tags){
+  // agrupa: "Alimentação: Comeu bem · Sono: Dormiu bem · Humor: Alegre"
+  const por={};tags.forEach(t=>{const g=grupoDaTag(t);(por[g]=por[g]||[]).push(t);});
+  return Object.entries(por).map(([g,ts])=>`<span class="lb">${esc(g)}:</span> ${ts.map(esc).join(', ')}`).join(' &nbsp;·&nbsp; ');
+}
+function listaCampos(nomes,contagem){
+  return `<ul>${nomes.map(n=>{const c=infoCampo(n);
+    return `<li><b>${esc(n)}</b>${contagem?` — ${contagem[n]} registro(s)`:''}${c?`<br><span class="cdesc">${esc(c.d)}</span>`:''}</li>`;}).join('')}</ul>`;
+}
 function secaoAluno(a,regs,turmaNome,pb){
   const info=[idade(a.nascimento),a.responsavel?'Responsável: '+a.responsavel:''].filter(Boolean).join(' · ');
   let h=`<div class="${pb?'pb':''}"><h2>${esc(a.nome)}${turmaNome?' — '+esc(turmaNome):''}</h2>${info?`<p class="info">${esc(info)}</p>`:''}`;
   if(!regs.length)return h+'<p><i>Nenhum registro no período.</i></p></div>';
-  const conta=k=>{const c={};regs.forEach(r=>(r[k]||[]).forEach(t=>c[t]=(c[t]||0)+1));return Object.entries(c).sort((x,y)=>y[1]-x[1]).map(([t,n])=>`${esc(t)} (${n})`).join(' · ');};
-  const rt=conta('tags'),rc=conta('campos');
-  h+=`<div class="res"><b>${regs.length} registro(s) no período.</b>${rt?`<br>${rt}`:''}${rc?`<br><b>Campos de experiência:</b> ${rc}`:''}</div>`;
+  // contagens do período
+  const ct={},cc={};
+  regs.forEach(r=>{(r.tags||[]).forEach(t=>ct[t]=(ct[t]||0)+1);(r.campos||[]).forEach(t=>cc[t]=(cc[t]||0)+1);});
+  const rotRes=GRUPOS.map(g=>{const it=g.itens.filter(i=>ct[i]).map(i=>`${esc(i)} (${ct[i]}×)`);return it.length?`<p><span class="lb">${esc(g.g)}:</span> ${it.join(', ')}</p>`:'';}).join('');
+  const camposPer=CAMPOS.filter(n=>cc[n]);
+  h+=`<div class="res"><p><b>Resumo do período: ${regs.length} registro(s).</b></p>
+    ${rotRes?`<p class="lb" style="margin-top:6pt">Rotina</p>${rotRes}`:''}
+    ${camposPer.length?`<p class="lb" style="margin-top:6pt">Campos de experiência da BNCC trabalhados</p>${listaCampos(camposPer,cc)}`:''}</div>`;
   for(const r of regs.slice().sort((x,y)=>x.data.localeCompare(y.data))){
-    h+=`<div class="d">${fmtDate(r.data)} (${esc(diaSemana(r.data))})</div>`;
-    if((r.tags||[]).length)h+=`<p class="tg">${r.tags.map(esc).join(' · ')}</p>`;
-    if(r.texto)h+=`<p>${esc(r.texto).replace(/\n/g,'<br>')}</p>`;
-    if((r.campos||[]).length)h+=`<p class="tg"><i>${r.campos.map(esc).join(' · ')}</i></p>`;
+    h+=`<div class="d">${fmtDate(r.data)} (${esc(diaSemana(r.data))})${r.coletivo?' <span class="cdesc">· atividade coletiva</span>':''}</div><div class="reg">`;
+    if((r.tags||[]).length)h+=`<p><span class="lb">Rotina do dia —</span> ${linhaRotina(r.tags)}</p>`;
+    if(r.texto)h+=`<p><span class="lb">Observação:</span> ${esc(r.texto).replace(/\n/g,'<br>')}</p>`;
+    if((r.campos||[]).length)h+=`<p class="lb" style="margin-top:4pt">Campos de experiência (BNCC) trabalhados:</p>${listaCampos(r.campos)}`;
     if(r.fotos&&r.fotos.length)h+=r.fotos.map(f=>`<img src="${f}">`).join('');
+    h+='</div>';
   }
   return h+'</div>';
 }
@@ -601,7 +713,10 @@ async function montarRelatorio(escopo,de,ate){
       }
     }
   }
-  return {titulo,body:`<h1>${esc(titulo)}</h1><p class="per">${periodo} · gerado em ${fmtDate(today())}</p>${secoes.join('')||'<p>Nenhum aluno.</p>'}`};
+  const corpo=secoes.join('');
+  const nota=corpo.includes('BNCC')?`<p class="nota"><b>Sobre os Campos de Experiência:</b> a Base Nacional Comum Curricular (BNCC) organiza a aprendizagem na Educação Infantil em cinco campos de experiência — ${CAMPOS_BNCC.map(c=>`<i>${esc(c.n)}</i> (${esc(c.d.toLowerCase())})`).join('; ')}. Os campos indicados em cada registro são os que a atividade do dia trabalhou com a criança.</p>`:'';
+  const cf=cfg(),quem=[cf.escola,cf.professora?'Professora: '+cf.professora:''].filter(Boolean).join(' · ');
+  return {titulo,body:`<h1>${esc(titulo)}</h1>${quem?`<p class="per" style="margin-bottom:2pt"><b>${esc(quem)}</b></p>`:''}<p class="per">${periodo} · gerado em ${fmtDate(today())}</p>${corpo||'<p>Nenhum aluno.</p>'}${nota}`};
 }
 async function exportar(escopo,fmt){
   let de,ate;
@@ -638,8 +753,11 @@ app.addEventListener('click',async e=>{
   }
   if(act==='selTodos'||act==='selNenhum'){document.querySelectorAll('.selAluno').forEach(c=>c.checked=act==='selTodos');return;}
   if(act==='removerFotoAluno'){state.editFoto='';const a=await get('alunos',state.alunoId);setPrev('prevEdit','');document.getElementById('prevEdit').innerHTML=avatar({nome:a.nome},'avatar-lg');t.remove();return;}
+  if(act==='tema'){salvarCfg({tema:t.dataset.t});renderConfig();return;}
+  if(act==='modo'){salvarCfg({modo:t.dataset.m});renderConfig();return;}
+  if(act==='salvarPerfil'){salvarCfg({professora:document.getElementById('cProf').value.trim(),escola:document.getElementById('cEscola').value.trim()});toast('Perfil salvo ✔');return;}
   if(act==='exportar'){try{await exportar(t.dataset.escopo,t.dataset.fmt);}catch(err){console.error(err);toast('Não foi possível gerar o relatório.');}return;}
-  if(act==='exportarBackup'){try{await exportarBackup();}catch(err){console.error(err);toast('Não foi possível gerar o backup.');}renderBackup();return;}
+  if(act==='exportarBackup'){try{await exportarBackup();}catch(err){console.error(err);toast('Não foi possível gerar o backup.');}renderConfig();return;}
 
   const d0=depth(state.view);
   try{
@@ -647,7 +765,7 @@ app.addEventListener('click',async e=>{
     else if(act==='abrirTurma'){state.turmaId=+t.dataset.id;state.view='alunos';state.addOpen=false;}
     else if(act==='abrirAddTurma'){state.addOpen=true;}
     else if(act==='fecharAdd'){state.addOpen=false;}
-    else if(act==='abrirBackup'){state.view='backup';}
+    else if(act==='abrirConfig'){state.view='config';}
     else if(act==='salvarTurma'){
       const nome=document.getElementById('fNome').value.trim();
       if(!nome)return toast('Digite o nome da turma.');

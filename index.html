@@ -169,6 +169,28 @@ function diasDesdeBackup(){try{const v=localStorage.getItem('ultimoBackup');retu
 function soDigitos(s){return String(s||'').replace(/\D/g,'');}
 function waLink(tel){let d=soDigitos(tel);if(d.length===10||d.length===11)d='55'+d;return d.length>=12?`https://wa.me/${d}`:'';}
 function setPrev(id,src){const b=document.getElementById(id);if(b)b.innerHTML=src?`<img src="${src}" class="avatar-lg">`:'';}
+/* Data digitada DD/MM/AAAA (sem depender do calendário do celular) */
+function mascaraData(v){const d=soDigitos(v).slice(0,8);return d.length>4?`${d.slice(0,2)}/${d.slice(2,4)}/${d.slice(4)}`:d.length>2?`${d.slice(0,2)}/${d.slice(2)}`:d;}
+function brParaIso(s){
+  const m=/^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(s||'').trim());if(!m)return null;
+  const [_,d,mo,y]=m.map(Number),dt=new Date(y,mo-1,d);
+  if(dt.getFullYear()!==y||dt.getMonth()!==mo-1||dt.getDate()!==d)return null;
+  const iso=`${m[3]}-${m[2]}-${m[1]}`;
+  if(iso>today()||y<1990)return null;
+  return iso;
+}
+// devolve a data ISO, null se vazio, ou false se inválida (já avisa a professora)
+function lerNascimento(id){
+  const v=document.getElementById(id).value.trim();if(!v)return null;
+  const iso=brParaIso(v);
+  if(!iso){toast('Data de nascimento inválida. Digite no formato DD/MM/AAAA.');document.getElementById(id).focus();return false;}
+  return iso;
+}
+document.addEventListener('input',e=>{
+  if(!e.target.classList||!e.target.classList.contains('dataMask'))return;
+  const el=e.target,novo=mascaraData(el.value);
+  if(el.value!==novo){el.value=novo;el.setSelectionRange(novo.length,novo.length);}
+});
 function abrirZoom(src){const d=document.createElement('div');d.className='lightbox';d.innerHTML=`<img src="${src}" alt="">`;d.onclick=()=>d.remove();document.body.appendChild(d);}
 
 function resizeImg(file,maxW=1000){
@@ -208,7 +230,7 @@ window.addEventListener('popstate',()=>{
 
 /* ===================== TELAS ===================== */
 async function render(){
-  if(gravando&&recognition){try{recognition.stop();}catch(e){}}
+  if(gravando){querOuvir=false;try{recognition&&recognition.stop();}catch(e){}stopMic();}
   const v=state.view;
   if(v==='turmas')return renderTurmas();
   if(v==='alunos')return renderAlunos();
@@ -295,7 +317,7 @@ async function renderAlunos(){
 function formAluno(){
   return `<div class="panel"><h3 class="ph">Novo aluno</h3>
     <label>Nome do aluno</label><input id="fNomeAluno" placeholder="Nome completo">
-    <label>Data de nascimento (opcional)</label><input type="date" id="fNascAluno">
+    <label>Data de nascimento (opcional)</label><input id="fNascAluno" class="dataMask" type="text" inputmode="numeric" maxlength="10" placeholder="DD/MM/AAAA" autocomplete="off">
     <label>Foto (opcional)</label><label class="filebtn">📷 Escolher foto<input type="file" accept="image/*" id="fFotoAluno"></label>
     <div id="prevNovo" style="margin-top:8px">${state.novaFoto?`<img src="${state.novaFoto}" class="avatar-lg">`:''}</div>
     <button class="btn" style="margin-top:14px" data-action="salvarAluno">Salvar aluno</button></div>`;
@@ -368,7 +390,7 @@ async function renderEditarAluno(){
         <div><label class="filebtn">📷 Trocar foto<input type="file" accept="image/*" id="fFotoEdit"></label>
         ${a.foto||state.editFoto?'<button class="btn link sm" data-action="removerFotoAluno">remover foto</button>':''}</div></div>
       <label>Nome</label><input id="eNomeA" value="${esc(a.nome)}">
-      <label>Data de nascimento</label><input type="date" id="eNasc" value="${esc(a.nascimento||'')}">
+      <label>Data de nascimento</label><input id="eNasc" class="dataMask" type="text" inputmode="numeric" maxlength="10" placeholder="DD/MM/AAAA" autocomplete="off" value="${esc(fmtDate(a.nascimento))}">
       <label>Responsável</label><input id="eResp" value="${esc(a.responsavel||'')}" placeholder="Ex: Maria (mãe)">
       <label>Telefone do responsável</label><input id="eTel" type="tel" inputmode="tel" value="${esc(a.telefone||'')}" placeholder="(48) 99999-9999">
       <label>Cuidados importantes</label><textarea id="eObs" placeholder="Alergias, restrições alimentares, quem pode buscar, medicação...">${esc(a.obs||'')}</textarea>
@@ -441,28 +463,47 @@ async function handleFotos(e){
 }
 
 /* ----- Ditado por voz ----- */
-let recognition=null,gravando=false,micBase='';
+/* O Chrome do Android repete o texto no modo "contínuo" (cada resultado já traz
+   tudo o que foi dito antes). Por isso ouvimos UMA frase por vez e reiniciamos
+   sozinhos até a professora tocar em Parar — cada frase entra uma única vez. */
+let recognition=null,gravando=false,querOuvir=false,micBase='',micAlvo=null;
+const ERROS_MIC={'not-allowed':'Permissão de microfone negada. Toque no cadeado ao lado do endereço e permita o microfone.','audio-capture':'Nenhum microfone encontrado.','network':'Sem internet: o ditado do app precisa estar online. Use o microfone do teclado.','service-not-allowed':'O navegador bloqueou o reconhecimento de voz. Use o microfone do teclado.'};
 function toggleMic(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){alert('O ditado do app não funciona neste navegador.\n\nDica: use o microfone do próprio teclado do celular (ícone 🎤 no teclado) — funciona em qualquer aparelho, até sem internet.');return;}
   if(!window.isSecureContext){alert('O ditado só funciona pelo link https:// do app (GitHub Pages), não abrindo o arquivo direto.');return;}
-  if(gravando){recognition&&recognition.stop();return;}
-  const textarea=document.getElementById('fTexto'),btn=document.getElementById('btnMic');
-  micBase=textarea.value.trim()?textarea.value.trim()+' ':'';
-  recognition=new SR();
-  recognition.lang='pt-BR';recognition.continuous=true;recognition.interimResults=true;
-  recognition.onresult=e=>{
-    let fin='',int='';
-    for(let i=0;i<e.results.length;i++){const r=e.results[i];if(r.isFinal)fin+=r[0].transcript+' ';else int+=r[0].transcript;}
-    textarea.value=micBase+fin+int;
-  };
-  const erros={'not-allowed':'Permissão de microfone negada. Toque no cadeado ao lado do endereço e permita o microfone.','no-speech':'Nenhuma fala detectada. Toque em Ditar e tente de novo.','audio-capture':'Nenhum microfone encontrado.','network':'Sem internet: o ditado do app precisa estar online. Use o microfone do teclado.','aborted':null,'service-not-allowed':'O navegador bloqueou o reconhecimento de voz. Use o microfone do teclado.'};
-  recognition.onerror=e=>{stopMic();const msg=e.error in erros?erros[e.error]:`Não foi possível usar o ditado (${e.error}).`;if(msg)alert(msg);};
-  recognition.onend=()=>stopMic();
-  try{recognition.start();gravando=true;btn.textContent='⏹ Parar';btn.classList.add('recording');}
-  catch(err){alert('Não foi possível acessar o microfone.');}
+  if(gravando){querOuvir=false;try{recognition&&recognition.stop();}catch(e){}stopMic();return;}
+  micAlvo=document.getElementById('fTexto');
+  querOuvir=true;gravando=true;
+  const btn=document.getElementById('btnMic');btn.textContent='⏹ Parar';btn.classList.add('recording');
+  ouvirFrase(SR);
 }
-function stopMic(){gravando=false;const b=document.getElementById('btnMic');if(b){b.textContent='🎤 Ditar';b.classList.remove('recording');}}
+function ouvirFrase(SR){
+  const ta=micAlvo;
+  if(!querOuvir||!ta||!document.body.contains(ta)){stopMic();return;}
+  // parte do que já está escrito (inclusive o que a professora digitou/corrigiu)
+  micBase=ta.value.trim()?ta.value.trim()+' ':'';
+  const r=new SR();recognition=r;
+  r.lang='pt-BR';r.continuous=false;r.interimResults=true;r.maxAlternatives=1;
+  let ultimo='';
+  r.onresult=e=>{
+    const res=e.results[e.results.length-1];
+    ultimo=res[0].transcript.trim();
+    ta.value=micBase+ultimo;
+    if(res.isFinal){micBase=ta.value.trim()+' ';ultimo='';}
+  };
+  r.onerror=e=>{
+    const msg=ERROS_MIC[e.error];
+    if(msg){querOuvir=false;stopMic();alert(msg);} // 'no-speech' e 'aborted': só reinicia em silêncio
+  };
+  r.onend=()=>{
+    if(ultimo){ta.value=micBase+ultimo;} // frase que ficou sem confirmação final
+    if(querOuvir)setTimeout(()=>{try{ouvirFrase(SR);}catch(err){stopMic();}},150);
+    else stopMic();
+  };
+  try{r.start();}catch(err){querOuvir=false;stopMic();alert('Não foi possível acessar o microfone.');}
+}
+function stopMic(){gravando=false;querOuvir=false;const b=document.getElementById('btnMic');if(b){b.textContent='🎤 Ditar';b.classList.remove('recording');}}
 
 /* ----- Backup ----- */
 async function renderBackup(){
@@ -633,7 +674,8 @@ app.addEventListener('click',async e=>{
     else if(act==='salvarAluno'){
       const nome=document.getElementById('fNomeAluno').value.trim();
       if(!nome)return toast('Digite o nome do aluno.');
-      await add('alunos',{nome,turmaId:state.turmaId,nascimento:document.getElementById('fNascAluno').value||null,foto:state.novaFoto||null});
+      const nasc=lerNascimento('fNascAluno');if(nasc===false)return;
+      await add('alunos',{nome,turmaId:state.turmaId,nascimento:nasc,foto:state.novaFoto||null});
       state.addOpen=false;state.novaFoto=null;toast(`${nome} cadastrado(a) ✔`);
     }
     else if(act==='abrirAluno'){state.alunoId=+t.dataset.id;state.filtroDe=null;state.filtroAte=null;state.view='perfil';}
@@ -641,8 +683,9 @@ app.addEventListener('click',async e=>{
     else if(act==='salvarEdAluno'){
       const a=await get('alunos',state.alunoId);const nome=document.getElementById('eNomeA').value.trim();
       if(!nome)return toast('Digite o nome do aluno.');
+      const nasc=lerNascimento('eNasc');if(nasc===false)return;
       const foto=state.editFoto===null?a.foto:(state.editFoto||null);
-      await put('alunos',{...a,nome,foto,nascimento:document.getElementById('eNasc').value||null,
+      await put('alunos',{...a,nome,foto,nascimento:nasc,
         responsavel:document.getElementById('eResp').value.trim(),telefone:document.getElementById('eTel').value.trim(),obs:document.getElementById('eObs').value.trim()});
       state.editFoto=null;state.view='perfil';toast('Cadastro atualizado ✔');
     }
